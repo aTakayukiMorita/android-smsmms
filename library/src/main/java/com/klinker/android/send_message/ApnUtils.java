@@ -231,9 +231,8 @@ public class ApnUtils {
             beginDocument(parser, "apns");
 
             while (true) {
-                nextElement(parser);
-                String tag = parser.getName();
-                if (tag == null) {
+                int type = nextElement(parser);
+                if (type == XmlPullParser.END_DOCUMENT) {
                     break;
                 }
 
@@ -363,12 +362,13 @@ public class ApnUtils {
         }
     }
 
-    private static void nextElement(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private static int nextElement(XmlPullParser parser) throws XmlPullParserException, IOException {
         int type;
         while ((type=parser.next()) != parser.START_TAG
                 && type != parser.END_DOCUMENT) {
             ;
         }
+        return type;
     }
 
     public static class APN {
